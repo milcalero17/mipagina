@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Web UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+        .navbar {
+            background-color: #181818;
+            padding: 10px;
+        }
+        .navbar-brand {
+            color: #1DB954;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin-right: 15px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #1DB954;
+        }
+        .btn-download {
+            background-color: #1DB954;
+            color: white;
+            border-radius: 5px;
+        }
+        .playlist-container {
+            margin-top: 20px;
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .reproductor {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #181818;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn-play {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-play:hover {
+            background-color: #17a34a;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Spotify</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Buscar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tu Biblioteca</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Premium</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Asistencia</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Descargar</a></li>
+                    <li class="nav-item">
+                        <button class="btn btn-download">Descargar App</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container-fluid p-4">
+        <h2 class="mt-4">Canciones Populares</h2>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card bg-dark text-white">
+                    <img src="musica/OIP.jpeg" alt="Vida de Rico">
+                    <div class="card-body">
+                        <p class="card-text">Vida de Rico - Camilo</p>
+                        <button class="btn-play" onclick="reproducirCancion('vida_de_rico.mp3')">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card bg-dark text-white">
+                    <img src="musica/OIP (1).jpeg" alt="Mix de los 200">
+                    <div class="card-body">
+                        <p class="card-text">Mix de los 200</p>
+                        <button class="btn-play" onclick="reproducirCancion('mix_de_los_200.mp3')">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Descubre Nuevas Canciones</h2>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card bg-dark text-white">
+                    <img src="musica/OIP (4).jpeg" alt="Clandestino">
+                    <div class="card-body">
+                        <p class="card-text">Clandestino - Shakira</p>
+                        <button class="btn-play" onclick="reproducirCancion('clandestino.mp3')">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card bg-dark text-white">
+                    <img src="musica/OIP (7).jpeg" alt="Mix Variado">
+                    <div class="card-body">
+                        <p class="card-text">Wisin, Ariana Grande, CNCO - Mix</p>
+                        <button class="btn-play" onclick="reproducirCancion('mix_variado.mp3')">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Favoritos</h2>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card bg-dark text-white">
+                    <img src="musica/OIP (5).jpeg" alt="Debí tomar más fotos">
+                    <div class="card-body">
+                        <p class="card-text">Debí tomar más fotos - Camilo</p>
+                        <button class="btn-play" onclick="reproducirCancion('debi_tomar_mas_fotos.mp3')">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reproductor -->
+    <div class="reproductor">
+        <p id="cancionActual">Reproduciendo: Ninguna</p>
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="" type="audio/mp3">
+            Tu navegador no soporta el audio.
+        </audio>
+    </div>
+
+    <!-- Script para reproducir canciones -->
+    <script>
+        function reproducirCancion(nombreArchivo) {
+            let audio = document.getElementById("audioPlayer");
+            let source = document.getElementById("audioSource");
+            source.src = "musica/" + nombreArchivo;
+            audio.load();
+            audio.play();
+            document.getElementById("cancionActual").innerText = "Reproduciendo: " + nombreArchivo.replace(".mp3", "");
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
